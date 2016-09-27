@@ -10,9 +10,9 @@
 //#define ANTENA1	//toroidal diametro mediana
 //#define ANTENA2	//cilindrica chica
 //#define ANTENA3	//cilindrica mediana
-//#define ANTENA4	//cilindrica grande
+#define ANTENA4	//cilindrica grande
 //#define ANTENA5	//cilindrica muy chica OJOS
-#define ANTENA6	//cilindrica vieja de madera
+//#define ANTENA6	//cilindrica vieja de madera
 //#define ANTENA7 //pencil tunel
 //#define ANTENA8 //pencil plato doble
 //#define ANTENAA1	//Ernesto viejas
@@ -43,11 +43,13 @@ const char s_antena [] = { "ant2,005.70,011.10,002.80,065.00\r\n" };
 #endif
 
 #ifdef ANTENA3 //cilindrica mediana
-const char s_antena [] = { "ant3,002.73,019.00,004.50,065.00\r\n" };
+//const char s_antena [] = { "ant3,002.73,019.00,004.50,065.00\r\n" };
+const char s_antena [] = { "ant3,003.50,019.00,003.50,065.00\r\n" };
 #endif
 
 #ifdef ANTENA4 //cilindrica grande
-const char s_antena [] = { "ant4,003.44,023.00,004.50,065.00\r\n" };
+//const char s_antena [] = { "ant4,003.44,023.00,004.50,065.00\r\n" };
+const char s_antena [] = { "ant4,004.00,022.00,003.50,065.00\r\n" };
 #endif
 
 #ifdef ANTENA5 //cilindrica muy chica OJOS
@@ -92,6 +94,7 @@ static __IO uint32_t TimingDelay;
 //--- FUNCIONES DEL MODULO ---//
 unsigned short ADC_Conf (void);
 unsigned short ReadADC1 (unsigned char);
+int GetTemp (unsigned short);
 void Delay(__IO uint32_t nTime);
 
 
@@ -299,9 +302,13 @@ int main(void)
 
 					//muestreo temp
 					adc_sample = ReadADC1(16);
-				    temp = adc_sample * (-80);
-				    temp = temp / dx;
-				    temp = temp + 367;
+//				    temp = adc_sample * (-80);
+//				    temp = temp / dx;
+//				    temp = temp + 367;
+
+					temp = GetTemp(adc_sample);
+					//ajuste posterior
+					temp = temp - 30;
 
 				    memset(str1, 0, sizeof(str1));
 				    sprintf(str1, "temp,%03d.00\r\n", temp);
@@ -507,6 +514,25 @@ unsigned short ReadADC1 (unsigned char channel)
 	// Get the conversion value
 	GPIOA_PIN4_OFF;	//tarda 20us en convertir
 	return ADC_GetConversionValue(ADC1);
+}
+
+/* Temperature sensor calibration value address */
+#define TEMP110_CAL_ADDR ((uint16_t*) ((uint32_t) 0x1FFFF7C2))
+#define TEMP30_CAL_ADDR ((uint16_t*) ((uint32_t) 0x1FFFF7B8))
+#define VDD_CALIB ((uint16_t) (330))
+#define VDD_APPLI ((uint16_t) (300))
+
+int GetTemp (unsigned short adc_temp)
+{
+    int32_t temperature; /* will contain the temperature in degree Celsius */
+    //temperature = (((int32_t) ADC1->DR * VDD_APPLI / VDD_CALIB) - (int32_t) *TEMP30_CAL_ADDR );
+    temperature = (((int32_t) adc_temp * VDD_APPLI / VDD_CALIB) - (int32_t) *TEMP30_CAL_ADDR );
+    temperature = temperature * (int32_t)(110 - 30);
+    temperature = temperature / (int32_t)(*TEMP110_CAL_ADDR - *TEMP30_CAL_ADDR);
+    temperature = temperature + 30;
+
+    return temperature;
+
 }
 
 /**
