@@ -10,7 +10,7 @@
 //#define ANTENA1	//toroidal diametro mediana
 //#define ANTENA2	//cilindrica chica
 //#define ANTENA3	//cilindrica mediana
-#define ANTENA4	//cilindrica grande
+//#define ANTENA4	//cilindrica grande
 //#define ANTENA5	//cilindrica muy chica OJOS
 //#define ANTENA6	//cilindrica vieja de madera
 //#define ANTENA7 //pencil tunel
@@ -18,6 +18,10 @@
 //#define ANTENAA1	//Ernesto viejas
 //#define ANTENAA2	//Ernesto viejas
 //#define ANTENAA3	//Ernesto viejas
+//#define ANTENAA6 //antenas Ernesto tunel grande 350mm dia
+//#define ANTENAA7 //antenas Ernesto tunel mediano 240mm dia
+#define ANTENAA8 //antenas Ernesto tunel chico 150mm dia
+
 
 //--- VARIABLES EXTERNAS ---//
 volatile unsigned char timer_1seg = 0;
@@ -87,6 +91,18 @@ const char s_antena [] = { "anta,022.60,157.20,001.10,065.00\r\n" };
 
 #ifdef ANTENAA5 //antenas Ernesto viejas CHICOS
 const char s_antena [] = { "anta,022.60,157.20,001.10,065.00\r\n" };
+#endif
+
+#ifdef ANTENAA6 //antenas Ernesto tunel grande 350mm dia
+const char s_antena [] = { "anta,009.00,051.00,003.50,065.00\r\n" };
+#endif
+
+#ifdef ANTENAA7 //antenas Ernesto tunel mediano 240mm dia
+const char s_antena [] = { "anta,009.00,045.00,003.50,065.00\r\n" };
+#endif
+
+#ifdef ANTENAA8 //antenas Ernesto tunel chico 150mm dia
+const char s_antena [] = { "anta,010.60,007.82,002.00,065.00\r\n" };
 #endif
 
 static __IO uint32_t TimingDelay;
