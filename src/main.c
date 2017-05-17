@@ -8,6 +8,7 @@
 //ANTENA ELEGIDA
 //#define ANTENA0		//toroidal diametro grande
 //#define ANTENA1	//toroidal diametro mediana
+//#define ANTENA1B	//toroidal diametro mediana DE=110mm DI=45
 //#define ANTENA2	//cilindrica chica
 //#define ANTENA3	//cilindrica mediana
 //#define ANTENA4	//cilindrica grande
@@ -18,10 +19,12 @@
 //#define ANTENAA1	//Ernesto viejas
 //#define ANTENAA2	//Ernesto viejas
 //#define ANTENAA3	//Ernesto viejas
+//#define ANTENAA5	//Ernesto viejas
+//#define ANTENAA4	//Ernesto viejas
 //#define ANTENAA6 //antenas Ernesto tunel grande 350mm dia
 //#define ANTENAA7 //antenas Ernesto tunel mediano 240mm dia
-#define ANTENAA8 //antenas Ernesto tunel chico 150mm dia
-
+//#define ANTENAA1 //antenas Ernesto tunel chico 150mm dia
+#define ANTENAA9	//Nuevas Luis
 
 //--- VARIABLES EXTERNAS ---//
 volatile unsigned char timer_1seg = 0;
@@ -73,6 +76,10 @@ const char s_antena [] = { "ant8,022.60,157.20,001.10,065.00\r\n" };
 #endif
 
 //antena, R [ohms], L [mHy], Imax [A], Tmax [°C] todos 000.00
+#ifdef ANTENAA9 //toroidal diametro mediana antena nueva DE=110 DI=45
+const char s_antena [] = { "anta,023.80,133.00,001.10,065.00\r\n" };
+#endif
+
 #ifdef ANTENAA1 //antenas Ernesto viejas CHICOS
 const char s_antena [] = { "anta,008.60,045.00,002.50,065.00\r\n" };
 #endif

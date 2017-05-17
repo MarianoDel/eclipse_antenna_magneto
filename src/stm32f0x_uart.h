@@ -43,8 +43,8 @@
 #define USARTx_RX_SOURCE                 GPIO_PinSource3
 #define USARTx_RX_AF                     GPIO_AF_1
 
-#define USARTx_RX_ENA	USARTx->CR1 &= 0xfffffffb
-#define USARTx_RX_DISA	USARTx->CR1 |= 0x04
+#define USARTx_RX_DISA	USARTx->CR1 &= 0xfffffffb
+#define USARTx_RX_ENA	USARTx->CR1 |= 0x04
 
 //--- Exported functions ---//
 void USART_Config(void);
